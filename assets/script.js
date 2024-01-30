@@ -16,10 +16,12 @@
 
 // API details
 var apiKey = "d15254dee6de61de16a78cd6e35be79e";
-var fiveDayUrl = "https://api.openweathermap.org/data/2.5/forecast";
+var apiUrl = "https://api.openweathermap.org/data/2.5/forecast";
 var todayUrl = `https://api.openweathermap.org/data/2.5/weather?q=`;
 var icons = "`https://openweathermap.org/img/wn/${icon}@2x.png`";
 
+//var
+// var displayWeather = 
 
 // saved city search
 var cities = JSON.parse(localStorage.getItem("cities")) || [];
@@ -42,7 +44,7 @@ function renderSearchHistory() {
         .text(cities[i]);
       $("#history").append(historyItem);
     }
-  }
+  };
 // event for search
 $("#search-form").submit(function(event) {
     event.preventDefault();
@@ -57,13 +59,35 @@ $("#search-form").submit(function(event) {
   // Initial rendering of search history
   renderSearchHistory();
 
-// function fetchTodayWeather(city) {
-//     var url = `${todayUrl}${city}&appid=${apiKey}&units=metric`;
-  
-//     fetch(url)
-//       .then(data => {
-//         // Handle successful API response
-//         console.log("Today's Weather Data", data);
-//         displayTodayWeather(data);
-//       })
-// }
+// Function to fetch weather data
+function fetchWeather(city) {
+    var searchParams = {
+      q: city,
+      appid: apiKey,
+      units: "metric" // You can change units to "imperial" for Fahrenheit
+    };
+ 
+    // query parameters
+    var url = new URL(apiUrl);
+    Object.keys(searchParams).forEach(key => url.searchParams.append(key, searchParams[key]));
+ 
+    // fetch weather data
+    fetch(url)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        // weather bits
+        console.log("Weather Data", data);
+        displayWeather(data);
+      })
+  };
+ //adding fetched forecast data to cards
+  var $forecast = $("<ul>");
+  $forecast.addClass("card");
+
+  // Add the newly created element to the DOM
+  $("#forecast").append();
+
+  // display weather data
+  renderSearchHistory();
