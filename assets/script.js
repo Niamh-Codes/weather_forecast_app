@@ -21,21 +21,19 @@ var todayUrl = `https://api.openweathermap.org/data/2.5/weather?q=`;
 var icons = "`https://openweathermap.org/img/wn/${icon}@2x.png`";
 
 
-//HTML element by id
-var cities = document.getElementById("search-input");
+// saved city search
+var cities = JSON.parse(localStorage.getItem("cities")) || [];
 
-//save city to local
+// save city to local storage
 function saveCity(city) {
     if (!cities.includes(city)) {
       cities.push(city);
       localStorage.setItem("cities", JSON.stringify(cities));
       renderSearchHistory();
-      console.log(renderSearchHistory)
     }
   }
-  
 
-// Function to render search history
+  // Render search history
 function renderSearchHistory() {
     $("#history").empty();
     for (var i = 0; i < cities.length; i++) {
@@ -44,10 +42,9 @@ function renderSearchHistory() {
         .text(cities[i]);
       $("#history").append(historyItem);
     }
-}
- 
-  // Event listener for form submission
-  $("#search-form").submit(function(event) {
+  }
+// event for search
+$("#search-form").submit(function(event) {
     event.preventDefault();
     var city = $("#search-input").val().trim();
     if (city !== "") {
@@ -56,8 +53,8 @@ function renderSearchHistory() {
       $("#search-input").val("");
     }
   });
- 
-  // rendering of search history
+  
+  // Initial rendering of search history
   renderSearchHistory();
 
 // function fetchTodayWeather(city) {
